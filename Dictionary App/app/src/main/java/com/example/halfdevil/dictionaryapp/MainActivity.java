@@ -20,11 +20,12 @@ MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //Taking the refreces inside the new values created
         values = (EditText)findViewById(R.id.values);
         search = (Button)findViewById(R.id.search);
 
-                final String searchValue=search.getText().toString();
+                final String searchValue=values.getText().toString();
 
         //adding a listener to the button
         search.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +43,8 @@ MainActivity extends AppCompatActivity {
 
                 //another try and catch block to open the database and raise an exception if it doesnt exist.
                 try{
-                    dbh.useDatabase();
+                  //  dbh.useDatabase();
+                    dbh.openDataBase();
                 }catch (Exception e){e.getStackTrace();}
 
                 //create a new intentobject using the Intent class with attributes
