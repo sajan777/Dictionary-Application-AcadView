@@ -35,6 +35,7 @@ MainActivity extends AppCompatActivity {
                 //as activity name and the 3rd activity.
                 Intent intobj = new Intent(MainActivity.this,WordDisplay.class);
                 intobj.putExtra("VAL",values.getText().toString());
+                //putting the seached value in the keyValue pair using putExtra
                 startActivity(intobj);
                 //this starts the 3rd activity
 
