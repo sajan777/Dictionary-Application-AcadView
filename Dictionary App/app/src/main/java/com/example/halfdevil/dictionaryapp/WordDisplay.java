@@ -5,66 +5,63 @@ import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.IOException;
 
 public class WordDisplay extends AppCompatActivity {
 
-    EditText getWord,getWorddefine,getWordtype;
-    Button next,previous;
-    DictionaryValueHelper dvh=null;
+    ImageButton next,previous;
+    EditText editText;
     DatabaseHelper dbh=null;
+    String newString = "";
+    String temp = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_display);
 
-        getWord = (EditText) findViewById(R.id.getWord);
-        getWorddefine = (EditText) findViewById(R.id.getWorddefine);
-        getWordtype = (EditText) findViewById(R.id.getWordtype);
+        editText = (EditText) findViewById(R.id.editText);
 
-        next = (Button) findViewById(R.id.next);
-        previous = (Button) findViewById(R.id.previous);
-
+        next = (ImageButton) findViewById(R.id.next);
+        previous = (ImageButton) findViewById(R.id.previous);
 
         dbh = new DatabaseHelper(getApplicationContext());
-
-
-        // Intent intobj = new Intent();
         Bundle b = getIntent().getExtras();
-
+        try {
+            dbh.createDataBase();
+        } catch (IOException ioe) {
+            throw new Error("Unable to create database");
+        }
+        try {
+            dbh.openDataBase();
+        } catch (Exception e) {
+            throw new Error("Unable to open database");
+        }
 
         if (b != null) {
-            String newString = b.getString("VAL");
-            //Toast.makeText(getApplicationContext(),newString,Toast.LENGTH_LONG).show();
-            try {
-          Cursor cur = dbh.fetchData(newString);
-          cur.moveToFirst();
-                String a =cur.getCount()+"";
-                Toast.makeText(getApplicationContext(),a,Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            newString = b.getString("VAL");
+            temp = dbh.fetchData(newString);
+            editText.setText(temp);
         }
+        else{ Toast.makeText(getApplicationContext(),"Bundle not working Database Connected",Toast.LENGTH_LONG);}
 
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        if (dvh != null) {
-            try {
-                String word = dvh.getWord();
-
-                String define = dvh.getDefinition();
-                String wordtype = dvh.getWordtype();
-
-                getWord.setText(word);
-                getWorddefine.setText(define);
-                getWordtype.setText(wordtype);
-            } catch (Exception e) {
-                throw new Error("cant");
             }
-        }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 }
