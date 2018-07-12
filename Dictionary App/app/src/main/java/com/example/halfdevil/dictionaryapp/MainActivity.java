@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 public class
 MainActivity extends AppCompatActivity {
 
+    ImageView imageView;
     EditText values;
     Button search;
     //creating an edit text and a Button
@@ -23,8 +25,8 @@ MainActivity extends AppCompatActivity {
         //Taking the refreces inside the new values created
         values = (EditText)findViewById(R.id.values);
         search = (Button)findViewById(R.id.search);
+        imageView = (ImageView)findViewById(R.id.imageView);
 
-        // final String searchValue=values.getText().toString();
 
         //adding a listener to the button
         search.setOnClickListener(new View.OnClickListener() {

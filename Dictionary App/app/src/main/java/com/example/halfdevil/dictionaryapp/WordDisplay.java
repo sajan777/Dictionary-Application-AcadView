@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -21,7 +22,6 @@ public class WordDisplay extends AppCompatActivity {
     String newString = "";
     String temp = "";//two strings for temproray purposes
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +31,7 @@ public class WordDisplay extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
         next = (Button) findViewById(R.id.next);
         previous = (Button) findViewById(R.id.previous);
+
 
         //initalization of the object
         dbh = new DatabaseHelper(getApplicationContext());
@@ -61,14 +62,14 @@ public class WordDisplay extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbh.IncrementId();
+                editText.setText(dbh.IncrementId());
 
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    dbh.DecrementId();
+                editText.setText(dbh.DecrementId());
             }
         });
 

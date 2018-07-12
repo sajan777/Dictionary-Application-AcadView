@@ -24,6 +24,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final Context mContext;//context object
     static final String TABLE_NAME = "Dictionary1";//database table name.
     Cursor cursor = null;//cursor object as null
+    int value0;
+    String value1 = null;
+    String value2 = null;
+    String value3 = null;
+    String word= null;
 
     public DatabaseHelper(Context context)
     {
@@ -105,37 +110,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //fetch data fxn that takes up string as an argument
     public String fetchData(String value) {
-         cursor = mDataBase.rawQuery("SELECT word , wordtype , definition fROM "+ TABLE_NAME + " WHERE word= '" + value + "' " , null);
+         cursor = mDataBase.rawQuery("SELECT  id , word , wordtype , definition fROM "+ TABLE_NAME + " WHERE word= '" + value + "' " , null);
         //cursor query used to select the word,wordtype,def,form the database in the table where the word matches
-         //strig variables for execution purposes
-         String value1 = null;
-        String value2 = null;
-        String value3 = null;
-        String word= null;
+         //string variables for execution purposes
+
         if (cursor.getCount()>0) {
             //main logic that uses to get the data from the table
             if (cursor.moveToFirst()) ;
             {
-                value1 = cursor.getString(0);
-                value2 = cursor.getString(1);
-                value3 = cursor.getString(2);
+                value0 = Integer.parseInt(cursor.getString(0));
+                value1 = cursor.getString(1);
+                value2 = cursor.getString(2);
+                value3 = cursor.getString(3);
 
-                word = "word: "+value1 +"\n wordtype: "+ value2 +"\n meaning: "+ value3;
+                word = "Id: "+ value0 +"\nWord: "+ value1 +"\nWordtype: "+ value2 +"\nDefiniton: "+ value3;
+                //final concatinated string
             }
         }
         return word;
-        //returns the total value of the string
+        //return the total value of the string
 
     }
 
-    public void IncrementId(){
-        cursor.moveToNext();
-    }
-    public void DecrementId(){
-        cursor.moveToPrevious();
-    }
+    public String IncrementId(){
+        String s1=null,s2=null,s3=null,s4=null;
+        int i;
+        cursor = mDataBase.rawQuery("SELECT id , word , wordtype , definition fROM " + TABLE_NAME + " WHERE id= '" + value0 + "' ", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            value0 = Integer.parseInt(cursor.getString(0));
+            s1 = cursor.getString(1);
+            s2 = cursor.getString(2);
+            s3 = cursor.getString(3);
+            s4 = "Id: " + value0 + "\nWord: " + s1 + "\nWordtype: " + s2 + "\nDefiniton: " + s3;
 
+        }
+        return s4;
 
+    }
+    public String DecrementId(){
+        String s1=null,s2=null,s3=null,s4=null;
+        int i;
+        cursor = mDataBase.rawQuery("SELECT id , word , wordtype , definition fROM " + TABLE_NAME + " WHERE id= '" + value0 + "' ", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToPrevious();
+            value0 = Integer.parseInt(cursor.getString(0));
+            s1 = cursor.getString(1);
+            s2 = cursor.getString(2);
+            s3 = cursor.getString(3);
+            s4 = "Id: " + value0 + "\nWord: " + s1 + "\nWordtype: " + s2 + "\nDefiniton: " + s3;
+        }
+        return s4;
+
+    }
 
 //onCreate and onUpgrade are empty here cause we don't need them.
     @Override
